@@ -7,6 +7,8 @@ function ensureArray<T>(maybeArray: T | T[]): T[] | undefined {
   return Array.isArray(maybeArray) ? maybeArray : [maybeArray];
 }
 
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   const res = await fetch(
     "https://cap-alerts.s3.amazonaws.com/unfiltered/rss.xml",
