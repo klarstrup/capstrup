@@ -17,7 +17,7 @@ export default async function Home() {
   );
   const data = await res.text();
   const jsonData = new XMLParser({ removeNSPrefix: true }).parse(data);
-  const hubData = HubResultSchema.parse(jsonData);
+  const hubData = HubResultSchema.parse(jsonData, { reportInput: true });
   const items = hubData?.rss?.channel?.item;
   if (!items || !Array.isArray(items)) return <div>No alerts found.</div>;
 
@@ -29,7 +29,9 @@ export default async function Home() {
         const itemJson = new XMLParser({ removeNSPrefix: true }).parse(
           itemData
         );
-        const itemJsonData = AlertResultElementSchema.parse(itemJson);
+        const itemJsonData = AlertResultElementSchema.parse(itemJson, {
+          reportInput: true,
+        });
 
         const itemPolygons = ensureArray(itemJsonData.alert?.info)
           ?.map(({ area }) =>

@@ -1,13 +1,13 @@
 import * as z from "zod";
 
-export const ImageSchema = z.object({
+const ImageSchema = z.object({
   title: z.string(),
   url: z.string(),
   link: z.string(),
 });
 export type Image = z.infer<typeof ImageSchema>;
 
-export const ItemSchema = z.object({
+const ItemSchema = z.object({
   title: z.string(),
   link: z.string(),
   description: z.string(),
@@ -22,7 +22,7 @@ export const ItemSchema = z.object({
 });
 export type Item = z.infer<typeof ItemSchema>;
 
-export const ChannelSchema = z.object({
+const ChannelSchema = z.object({
   link: z.array(z.string()),
   title: z.string(),
   description: z.string(),
@@ -37,7 +37,7 @@ export const ChannelSchema = z.object({
 });
 export type Channel = z.infer<typeof ChannelSchema>;
 
-export const RssSchema = z.object({
+const RssSchema = z.object({
   channel: ChannelSchema,
 });
 export type Rss = z.infer<typeof RssSchema>;
@@ -49,7 +49,7 @@ export const HubResultSchema = z.object({
 });
 export type HubResult = z.infer<typeof HubResultSchema>;
 
-export const CodeElementSchema = z.enum([
+const CodeElementSchema = z.enum([
   "layer:EC-MSC-SMC:1.0",
   "layer:EC-MSC-SMC:1.1",
   "layer:SOREM:1.0",
@@ -60,10 +60,7 @@ export const CodeElementSchema = z.enum([
 ]);
 export type CodeElement = z.infer<typeof CodeElementSchema>;
 
-export const AudienceEnumSchema = z.enum(["general public", "grand public"]);
-export type AudienceEnum = z.infer<typeof AudienceEnumSchema>;
-
-export const CategorySchema = z.enum([
+const CategorySchema = z.enum([
   "Geo",
   "Met",
   "Safety",
@@ -79,7 +76,7 @@ export const CategorySchema = z.enum([
 ]);
 export type Category = z.infer<typeof CategorySchema>;
 
-export const CertaintySchema = z.enum([
+const CertaintySchema = z.enum([
   "Likely",
   "Observed",
   "Possible",
@@ -89,21 +86,7 @@ export const CertaintySchema = z.enum([
 ]);
 export type Certainty = z.infer<typeof CertaintySchema>;
 
-export const LanguageSchema = z.enum([
-  "en-CA",
-  "en-EN",
-  "en-IN",
-  "en-US",
-  "et-ET",
-  "fr-CA",
-  "KN",
-  "ko-KR",
-  "ru-RU",
-  "zh-CN",
-]);
-export type Language = z.infer<typeof LanguageSchema>;
-
-export const ResponseTypeSchema = z.enum([
+const ResponseTypeSchema = z.enum([
   "",
   "Shelter",
   "Evacuate",
@@ -117,7 +100,7 @@ export const ResponseTypeSchema = z.enum([
 ]);
 export type ResponseType = z.infer<typeof ResponseTypeSchema>;
 
-export const SeveritySchema = z.enum([
+const SeveritySchema = z.enum([
   "Minor",
   "Moderate",
   "Severe",
@@ -126,7 +109,7 @@ export const SeveritySchema = z.enum([
 ]);
 export type Severity = z.infer<typeof SeveritySchema>;
 
-export const UrgencySchema = z.enum([
+const UrgencySchema = z.enum([
   "Expected",
   "Future",
   "Immediate",
@@ -135,44 +118,32 @@ export const UrgencySchema = z.enum([
 ]);
 export type Urgency = z.infer<typeof UrgencySchema>;
 
-export const MsgTypeSchema = z.enum([
-  "Alert",
-  "Cancel",
-  "Update",
-  "Ack",
-  "Error",
-]);
+const MsgTypeSchema = z.enum(["Alert", "Cancel", "Update", "Ack", "Error"]);
 export type MsgType = z.infer<typeof MsgTypeSchema>;
 
-export const ScopeSchema = z.enum(["Public", "Restricted", "Private"]);
+const ScopeSchema = z.enum(["Public", "Restricted", "Private"]);
 export type Scope = z.infer<typeof ScopeSchema>;
 
-export const StatusSchema = z.enum([
-  "Actual",
-  "Test",
-  "Exercise",
-  "Draft",
-  "System",
-]);
+const StatusSchema = z.enum(["Actual", "Test", "Exercise", "Draft", "System"]);
 export type Status = z.infer<typeof StatusSchema>;
 
-export const ParameterElementSchema = z.object({
+const ParameterElementSchema = z.object({
   valueName: z.string(),
   value: z.union([z.number(), z.string()]),
 });
 export type ParameterElement = z.infer<typeof ParameterElementSchema>;
 
-export const X509DataSchema = z.object({
+const X509DataSchema = z.object({
   X509Certificate: z.string(),
 });
 export type X509Data = z.infer<typeof X509DataSchema>;
 
-export const SignaturePropertySchema = z.object({
+const SignaturePropertySchema = z.object({
   value: z.string(),
 });
 export type SignatureProperty = z.infer<typeof SignaturePropertySchema>;
 
-export const TransformsSchema = z.object({
+const TransformsSchema = z.object({
   Transform: z.string(),
 });
 export type Transforms = z.infer<typeof TransformsSchema>;
@@ -188,7 +159,7 @@ const CapCircleSchema = z.templateLiteral([
   z.number(),
 ]);
 
-export const AreaElementSchema = z.object({
+const AreaElementSchema = z.object({
   areaDesc: z.string(),
   polygon: z.union([z.array(z.string()), z.string()]).optional(),
   geocode: z
@@ -200,30 +171,36 @@ export const AreaElementSchema = z.object({
 });
 export type AreaElement = z.infer<typeof AreaElementSchema>;
 
-export const KeyInfoSchema = z.object({ X509Data: X509DataSchema });
+const KeyInfoSchema = z.object({ X509Data: X509DataSchema });
 export type KeyInfo = z.infer<typeof KeyInfoSchema>;
 
-export const SignaturePropertiesSchema = z.object({
+const SignaturePropertiesSchema = z.object({
   SignatureProperty: z.array(SignaturePropertySchema),
 });
 export type SignatureProperties = z.infer<typeof SignaturePropertiesSchema>;
 
-export const ReferenceSchema = z.object({
+const ReferenceSchema = z.object({
   Transforms: TransformsSchema,
   DigestMethod: z.string(),
   DigestValue: z.string(),
 });
 export type Reference = z.infer<typeof ReferenceSchema>;
 
-export const InfoElementSchema = z.object({
-  language: LanguageSchema.optional(),
+const languageTagRegex = /^[a-z]{2,3}(?:-[A-Z]{2,3})?$/i;
+
+const LanguageTagSchema = z.string().regex(languageTagRegex, {
+  message: "Invalid RFC 3066 language tag format (e.g., 'en-US' or 'fr')",
+});
+
+const InfoElementSchema = z.object({
+  language: z.union([z.array(LanguageTagSchema), LanguageTagSchema]).optional(),
   category: CategorySchema,
   event: z.string(),
   responseType: ResponseTypeSchema.optional(),
   urgency: UrgencySchema,
   severity: SeveritySchema,
   certainty: CertaintySchema,
-  audience: z.union([AudienceEnumSchema, z.number()]).optional(),
+  audience: z.union([z.string(), z.number()]).optional(),
   eventCode: z
     .union([z.array(ParameterElementSchema), ParameterElementSchema])
     .optional(),
@@ -243,19 +220,19 @@ export const InfoElementSchema = z.object({
 });
 export type InfoElement = z.infer<typeof InfoElementSchema>;
 
-export const ObjectClassSchema = z.object({
+const ObjectClassSchema = z.object({
   SignatureProperties: SignaturePropertiesSchema,
 });
 export type ObjectClass = z.infer<typeof ObjectClassSchema>;
 
-export const SignedInfoSchema = z.object({
+const SignedInfoSchema = z.object({
   CanonicalizationMethod: z.string(),
   SignatureMethod: z.string(),
   Reference: ReferenceSchema,
 });
 export type SignedInfo = z.infer<typeof SignedInfoSchema>;
 
-export const SignatureElementSchema = z.object({
+const SignatureElementSchema = z.object({
   SignedInfo: SignedInfoSchema,
   SignatureValue: z.string(),
   KeyInfo: KeyInfoSchema,
@@ -263,7 +240,7 @@ export const SignatureElementSchema = z.object({
 });
 export type SignatureElement = z.infer<typeof SignatureElementSchema>;
 
-export const AlertSchema = z.object({
+const AlertSchema = z.object({
   identifier: z.union([z.number(), z.string()]),
   sender: z.string(),
   sent: z.coerce.date(),
