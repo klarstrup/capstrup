@@ -257,7 +257,7 @@ const AlertSchema = z.object({
     .optional(),
   restriction: z.string().optional(),
   addresses: z.string().optional(),
-  incidents: z.string().optional(),
+  incidents: z.union([z.number(), z.string()]).optional(),
 });
 export type Alert = z.infer<typeof AlertSchema>;
 
