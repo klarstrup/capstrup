@@ -63,7 +63,20 @@ export type CodeElement = z.infer<typeof CodeElementSchema>;
 export const AudienceEnumSchema = z.enum(["general public", "grand public"]);
 export type AudienceEnum = z.infer<typeof AudienceEnumSchema>;
 
-export const CategorySchema = z.enum(["Met"]);
+export const CategorySchema = z.enum([
+  "Geo",
+  "Met",
+  "Safety",
+  "Security",
+  "Rescue",
+  "Fire",
+  "Health",
+  "Env",
+  "Transport",
+  "Infra",
+  "CBRNE",
+  "Other",
+]);
 export type Category = z.infer<typeof CategorySchema>;
 
 export const CertaintySchema = z.enum([
@@ -71,6 +84,8 @@ export const CertaintySchema = z.enum([
   "Observed",
   "Possible",
   "Unknown",
+  // Deprecated
+  "Very Likely",
 ]);
 export type Certainty = z.infer<typeof CertaintySchema>;
 
@@ -88,7 +103,18 @@ export const LanguageSchema = z.enum([
 ]);
 export type Language = z.infer<typeof LanguageSchema>;
 
-export const ResponseTypeSchema = z.enum(["AllClear", "", "Monitor"]);
+export const ResponseTypeSchema = z.enum([
+  "",
+  "Shelter",
+  "Evacuate",
+  "Prepare",
+  "Execute",
+  "Avoid",
+  "Monitor",
+  "Assess",
+  "AllClear",
+  "None",
+]);
 export type ResponseType = z.infer<typeof ResponseTypeSchema>;
 
 export const SeveritySchema = z.enum([
@@ -96,6 +122,7 @@ export const SeveritySchema = z.enum([
   "Moderate",
   "Severe",
   "Unknown",
+  "Extreme",
 ]);
 export type Severity = z.infer<typeof SeveritySchema>;
 
@@ -108,13 +135,25 @@ export const UrgencySchema = z.enum([
 ]);
 export type Urgency = z.infer<typeof UrgencySchema>;
 
-export const MsgTypeSchema = z.enum(["Alert", "Cancel", "Update"]);
+export const MsgTypeSchema = z.enum([
+  "Alert",
+  "Cancel",
+  "Update",
+  "Ack",
+  "Error",
+]);
 export type MsgType = z.infer<typeof MsgTypeSchema>;
 
-export const ScopeSchema = z.enum(["Public"]);
+export const ScopeSchema = z.enum(["Public", "Restricted", "Private"]);
 export type Scope = z.infer<typeof ScopeSchema>;
 
-export const StatusSchema = z.enum(["Actual", "Test"]);
+export const StatusSchema = z.enum([
+  "Actual",
+  "Test",
+  "Exercise",
+  "Draft",
+  "System",
+]);
 export type Status = z.infer<typeof StatusSchema>;
 
 export const ParameterElementSchema = z.object({
