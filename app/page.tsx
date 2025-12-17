@@ -1,8 +1,9 @@
 import { shuffle } from "@/utils";
 import { XMLParser } from "fast-xml-parser";
 import { DynamicMap } from "./mapwrap";
+import { AlertResultElementSchema, HubResultSchema } from "./types";
 
-function ensureArray<T>(maybeArray: T | T[]): T[] | undefined {
+function ensureArray<T>(maybeArray: T | T[] | undefined): T[] | undefined {
   if (maybeArray === undefined) return undefined;
   return Array.isArray(maybeArray) ? maybeArray : [maybeArray];
 }
@@ -15,8 +16,9 @@ export default async function Home() {
     { cache: "force-cache" }
   );
   const data = await res.text();
-  const jsonData = new XMLParser().parse(data);
-  const items = jsonData?.rss?.channel?.item;
+  const jsonData = new XMLParser({ removeNSPrefix: true }).parse(data);
+  const hubData = HubResultSchema.parse(jsonData);
+  const items = hubData?.rss?.channel?.item;
   if (!items || !Array.isArray(items)) return <div>No alerts found.</div>;
 
   const polygons: [number, number][][] = (
@@ -24,11 +26,15 @@ export default async function Home() {
       shuffle(items).map(async (item) => {
         const itemRes = await fetch(item.link, { cache: "force-cache" });
         const itemData = await itemRes.text();
-        const itemJsonData = new XMLParser().parse(itemData);
+        const itemJson = new XMLParser({ removeNSPrefix: true }).parse(
+          itemData
+        );
+        const itemJsonData = AlertResultElementSchema.parse(itemJson);
+
         const itemPolygons = ensureArray(itemJsonData.alert?.info)
           ?.map(({ area }) =>
             ensureArray(area)?.map(({ polygon }) =>
-              ensureArray(polygon)?.map((polygonStr: string) =>
+              ensureArray(polygon)?.map((polygonStr) =>
                 polygonStr
                   ?.split(" ")
                   .map(
