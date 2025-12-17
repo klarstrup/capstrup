@@ -3,7 +3,7 @@ import { XMLParser } from "fast-xml-parser";
 import { DynamicMap } from "./mapwrap";
 import { AlertResultElementSchema, HubResultSchema } from "./types";
 
-function ensureArray<T>(maybeArray: T | T[] | undefined): T[] | undefined {
+function ensureArray<T>(maybeArray: T | T[]): T[] | undefined {
   if (maybeArray === undefined) return undefined;
   return Array.isArray(maybeArray) ? maybeArray : [maybeArray];
 }
