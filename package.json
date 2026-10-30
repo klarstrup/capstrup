@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "ci": "bun run ts",
-    "ts": "bunx --package typescript-7 tsc --noEmit"
+    "ts": "bun check"
   },
   "dependencies": {
     "fast-xml-parser": "^5.11.2",
